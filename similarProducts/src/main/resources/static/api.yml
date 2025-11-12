@@ -1,0 +1,5 @@
+openapi: 3.1.0
+info:
+  title: API de productos similares
+  description: API para obtener los productos similares dado un id de Producto.
+  version: 1.0.0
