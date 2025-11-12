@@ -1,8 +1,9 @@
-# **E-commerce API**
+# **SimilarProducts API**
 
-Esta es una aplicación backend desarrollada en **Spring Boot**, diseñada para obtener
-los productos similares. La aplicación utiliza unos datos mockeados que se utilizan como
-base de datos y proporciona una API REST documentada con Swagger. 
+Esta es una aplicación backend desarrollada en **Spring Boot**, diseñada para obtener 
+productos similares, indicando un Producto de referencia. La aplicación utiliza datos 
+mockeados que se utilizan este contexto como base de datos y proporciona una API REST 
+documentada con Swagger. 
 
 Además, implementa pruebas de comportamiento (Mocks) mediante Cucumber.
 
