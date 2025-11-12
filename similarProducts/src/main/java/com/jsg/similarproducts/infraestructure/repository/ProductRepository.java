@@ -1,10 +1,13 @@
 package com.jsg.similarproducts.infraestructure.repository;
 
 import com.jsg.similarproducts.domain.model.Product;
+import com.jsg.similarproducts.infraestructure.controllers.ErrorResponse;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -22,7 +25,6 @@ public class ProductRepository {
     @Value("${external.api.url}")
     private String apiBaseUrl;
 
-    // Retrieves a list of similar product IDs for a given product ID
     public List<Integer> getSimilarProductIds(String productId) {
         String url = apiBaseUrl + "/product/" + productId + "/similarids";
 
@@ -30,18 +32,29 @@ public class ProductRepository {
             Integer[] ids = restTemplate.getForObject(url, Integer[].class);
             return ids != null ? Arrays.asList(ids) : Collections.emptyList();
         } catch (RestClientException e) {
-            throw new RuntimeException("Error retrieving similar product IDs: " + e.getMessage(), e);
+            throw new ResponseStatusException(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                ErrorResponse.builder()
+                    .message("Error retrieving similar product IDs: " + e.getMessage())
+                    .build()
+                    .getMessage()
+            );
         }
     }
 
-    // Retrieves product details for a given product ID
     public Product getProductById(String productId) {
         String url = apiBaseUrl + "/product/" + productId;
 
         try {
             return restTemplate.getForObject(url, Product.class);
         } catch (RestClientException e) {
-            throw new RuntimeException("Error retrieving product with ID " + productId + ": " + e.getMessage(), e);
+            throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                ErrorResponse.builder()
+                    .message("Error retrieving product with ID " + productId + ": " + e.getMessage())
+                    .build()
+                    .getMessage()
+            );
         }
     }
 }
