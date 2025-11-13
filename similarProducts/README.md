@@ -1,49 +1,59 @@
 # **SimilarProducts API**
 
-Esta es una aplicación backend desarrollada en **Spring Boot**, diseñada para obtener 
-productos similares, indicando un Producto de referencia. La aplicación utiliza datos 
-mockeados que se utilizan este contexto como base de datos y proporciona una API REST 
-documentada con Swagger. 
+This is a backend application developed in **Spring Boot**, designed to obtain
+similar products by specifying a reference product. The application uses mocked
+data that serves as its database and provides a documented REST API using
+Swagger.
 
-Además, implementa pruebas de comportamiento (Mocks) mediante Cucumber.
+Additionally, it implements behavioral tests (Mocks) using Cucumber.
 
-## **Requisitos previos**
+## **Previous requisites**
 
-Antes de comenzar, asegúrate de tener los siguientes componentes instalados en tu máquina:
+Before you begin, make sure you have the following components installed on your
+machine:
 
 - **Java 21**
 - **Maven 3.8+**
 
-## **Instrucciones para construir y ejecutar la aplicación**
+## **Instructions for building and running the application**
 
-### **1. Construcción del proyecto**
+### **1. Project construction**
 
-Desde la raíz del proyecto, ejecuta el siguiente comando en tu terminal:
+From the project root (similarProducts), run the following command in your
+terminal:
 
 ```bash
 mvn clean package
 ```
 
-### **2. Iniciar la aplicación**
+### **2. Start the application**
+
 ```bash
 java -jar ./target/similarproducts-1.0.0.jar
 ```
 
-ó
+or
 
 ```bash
 mvn spring-boot:run
 ```
 
-### **3. Pruebas de comportamiento**
+Remember that should be launched the external API service (simulado) to make the
+application work.
+
+```bash
+docker-compose up -d simulado influxdb grafana  
+```
+
+### **3. Behavioral tests**
 
 ```bash
 mvn verify
 ```
 
-## **Recursos habilitados**
+## **Enabled resources**
 
-### **1. Documentacion swagger de la API**
+### **1. Swagger API documentation**
 
 #### URL: http://localhost:8080/swagger-ui/index.html
 
