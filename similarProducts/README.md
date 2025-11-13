@@ -55,5 +55,5 @@ mvn verify
 
 ### **1. Swagger API documentation**
 
-#### URL: http://localhost:8080/swagger-ui/index.html
+#### URL: http://localhost:5000/swagger-ui/index.html
 
