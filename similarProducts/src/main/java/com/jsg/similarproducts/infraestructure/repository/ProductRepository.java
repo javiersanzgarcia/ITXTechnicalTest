@@ -17,13 +17,13 @@ import java.util.List;
 public class ProductRepository {
 
     private final RestTemplate restTemplate;
+    private final String apiBaseUrl;
 
-    public ProductRepository() {
-        this.restTemplate = new RestTemplate();
+    public ProductRepository(RestTemplate restTemplate,
+                             @Value("${external.api.url}") String apiBaseUrl) {
+        this.restTemplate = restTemplate;
+        this.apiBaseUrl = apiBaseUrl;
     }
-
-    @Value("${external.api.url}")
-    private String apiBaseUrl;
 
     public List<Integer> getSimilarProductIds(String productId) {
         String url = apiBaseUrl + "/product/" + productId + "/similarids";
@@ -33,11 +33,11 @@ public class ProductRepository {
             return ids != null ? Arrays.asList(ids) : Collections.emptyList();
         } catch (RestClientException e) {
             throw new ResponseStatusException(
-                HttpStatus.INTERNAL_SERVER_ERROR,
-                ErrorResponse.builder()
-                    .message("Error retrieving similar product IDs: " + e.getMessage())
-                    .build()
-                    .getMessage()
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    ErrorResponse.builder()
+                            .message("Error retrieving similar product IDs: " + e.getMessage())
+                            .build()
+                            .message()
             );
         }
     }
@@ -49,11 +49,11 @@ public class ProductRepository {
             return restTemplate.getForObject(url, Product.class);
         } catch (RestClientException e) {
             throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND,
-                ErrorResponse.builder()
-                    .message("Error retrieving product with ID " + productId + ": " + e.getMessage())
-                    .build()
-                    .getMessage()
+                    HttpStatus.NOT_FOUND,
+                    ErrorResponse.builder()
+                            .message("Error retrieving product with ID " + productId + ": " + e.getMessage())
+                            .build()
+                            .message()
             );
         }
     }

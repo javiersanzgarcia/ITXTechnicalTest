@@ -21,16 +21,15 @@ public class SimilarProductsController {
 
     @GetMapping("/{productId}/similar")
     public ResponseEntity<Object> getSimilar(@PathVariable Integer productId) {
-        List<Product> productList = productsPort.getSimilarProducts(productId);
-
-        if (productList.isEmpty()) {
+        if (productId <= 0) {
             return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
+                    .status(HttpStatus.BAD_REQUEST)
                     .body(ErrorResponse.builder()
-                            .message("No Similar Products found")
+                            .message("Invalid product ID")
                             .build());
         }
 
+        List<Product> productList = productsPort.getSimilarProducts(productId);
         return ResponseEntity.ok(productList);
     }
 

@@ -6,6 +6,7 @@ import com.jsg.similarproducts.infraestructure.repository.ProductRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class ProductRepositoryAdapter implements ProductsOutPort {
@@ -18,10 +19,21 @@ public class ProductRepositoryAdapter implements ProductsOutPort {
 
     @Override
     public List<Product> findProducts(Integer productId) {
-        List<Integer> productsIds = productRepository
-                .getSimilarProductIds(productId.toString());
-        return productsIds.stream()
-                .map(id -> productRepository.getProductById(id.toString()))
-                .toList();
+        try {
+            List<Integer> productIds = productRepository.getSimilarProductIds(productId.toString());
+            return productIds.stream()
+                    .map(id -> {
+                        try {
+                            return productRepository.getProductById(id.toString());
+                        } catch (Exception e) {
+                            System.err.println("Error fetching product " + id + ": " + e.getMessage());
+                            return null;
+                        }
+                    })
+                    .filter(Objects::nonNull)
+                    .toList();
+        } catch (Exception e) {
+            throw new RuntimeException("Error fetching similar product IDs: " + e.getMessage(), e);
+        }
     }
 }
