@@ -20,6 +20,11 @@ docker-compose up -d simulado influxdb grafana
 ```
 Check that mocks are working with a sample request to [http://localhost:3001/product/1/similarids](http://localhost:3001/product/1/similarids).
 
+Included in docker-compose.yaml file to run the application and the mocks.
+```
+docker-compose up -d simulado influxdb grafana similarproducts
+```
+
 To execute the test run:
 ```
 docker-compose run --rm k6 run scripts/test.js
