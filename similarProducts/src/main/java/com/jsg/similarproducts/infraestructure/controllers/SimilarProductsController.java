@@ -31,7 +31,7 @@ public class SimilarProductsController {
         }
 
         List<Product> productList = productsPort.getSimilarProducts(productId);
-        System.out.println(productList);
+
         if (productList == null || productList.isEmpty()) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
