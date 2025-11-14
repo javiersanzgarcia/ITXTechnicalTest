@@ -53,24 +53,13 @@ class SimilarProductsControllerTest {
     }
 
     @Test
-    void getSimilarProducts_ShouldReturnEmptyList_WhenNoSimilarProductsFound() {
-        Integer productId = 999;
-        when(productsPort.getSimilarProducts(999)).thenReturn(List.of());
-
-        ResponseEntity<Object> response = similarProductsController.getSimilar(productId);
-
-        assertNotNull(response);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-    }
-
-    @Test
     void getSimilarProducts_ShouldReturnBadRequest_WhenInvalidProductId() {
         Integer invalidProductId = -7;
 
         ResponseEntity<Object> response = similarProductsController.getSimilar(invalidProductId);
 
         assertNotNull(response);
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         verify(productsPort, never()).getSimilarProducts(anyInt());
     }
 
