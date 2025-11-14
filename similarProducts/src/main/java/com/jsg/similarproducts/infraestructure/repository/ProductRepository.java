@@ -33,7 +33,7 @@ public class ProductRepository {
             return ids != null ? Arrays.asList(ids) : Collections.emptyList();
         } catch (RestClientException e) {
             throw new ResponseStatusException(
-                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    HttpStatus.NOT_FOUND,
                     ErrorResponse.builder()
                             .message("Error retrieving similar product IDs: " + e.getMessage())
                             .build()

@@ -42,10 +42,19 @@ Remember that should be launched the external API service (simulado) to make the
 application work.
 
 ```bash
-docker-compose up -d simulado influxdb grafana  
+docker-compose up -d simulado influxdb grafana similarproducts
+```
+
+If it is necessary to build the application after first launch, run the
+following command:
+
+```bash
+docker-compose build similarproducts
 ```
 
 ### **3. Behavioral tests**
+
+Application should be launched
 
 ```bash
 mvn verify

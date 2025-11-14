@@ -58,21 +58,20 @@ class ProductRepositoryTest {
         String errorMessage = "500 Internal Server Error";
 
         when(restTemplate.getForObject(eq(expectedUrl), eq(Integer[].class)))
-                .thenThrow(new HttpClientErrorException(HttpStatus.INTERNAL_SERVER_ERROR, errorMessage));
+                .thenThrow(new HttpClientErrorException(HttpStatus.NOT_FOUND, errorMessage));
 
         ResponseStatusException exception = assertThrows(
                 ResponseStatusException.class,
                 () -> productRepository.getSimilarProductIds(productId)
         );
 
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, exception.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
         assertTrue(exception.getMessage().contains("Error retrieving similar product IDs"));
         verify(restTemplate).getForObject(eq(expectedUrl), eq(Integer[].class));
     }
 
     @Test
     void getProductById_ShouldReturnProduct_WhenProductExists() {
-        // Arrange
         String productId = "1";
         String expectedUrl = "http://test-api/product/1";
         Product mockProduct = Product.builder()
@@ -85,10 +84,8 @@ class ProductRepositoryTest {
         when(restTemplate.getForObject(eq(expectedUrl), eq(Product.class)))
                 .thenReturn(mockProduct);
 
-        // Act
         Product result = productRepository.getProductById(productId);
 
-        // Assert
         assertNotNull(result);
         assertEquals(Integer.parseInt(productId), result.getId());
         assertEquals("Test Product", result.getName());
@@ -97,7 +94,6 @@ class ProductRepositoryTest {
 
     @Test
     void getProductById_ShouldThrowException_WhenProductNotFound() {
-        // Arrange
         String productId = "999";
         String expectedUrl = "http://test-api/product/999";
         String errorMessage = "Product not found";
@@ -105,7 +101,6 @@ class ProductRepositoryTest {
         when(restTemplate.getForObject(eq(expectedUrl), eq(Product.class)))
                 .thenThrow(new HttpClientErrorException(HttpStatus.NOT_FOUND, errorMessage));
 
-        // Act & Assert
         ResponseStatusException exception = assertThrows(
                 ResponseStatusException.class,
                 () -> productRepository.getProductById(productId)
